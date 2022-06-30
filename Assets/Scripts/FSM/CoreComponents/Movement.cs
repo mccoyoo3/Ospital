@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.AI;
 
 public class Movement: CoreComponent
@@ -36,14 +37,26 @@ public class Movement: CoreComponent
 
     public void RotateTowardsTarget()
     {
-        Vector3 lTargetDir = core.CollisionSenses.visibleTargets[0].position - transform.parent.parent.transform.position;
+        Vector3 lTargetDir = core.CollisionSenses.visibleTargets[0].position - RB.transform.position;
         lTargetDir.y = 0.0f;
-        transform.parent.parent.rotation = Quaternion.RotateTowards(transform.parent.parent.transform.rotation, Quaternion.LookRotation(lTargetDir), Time.time * core.CollisionSenses.lookAtSpeed);
+        RB.transform.rotation = Quaternion.RotateTowards(RB.transform.rotation, Quaternion.LookRotation(lTargetDir), Time.time * core.CollisionSenses.lookAtSpeed);
     }
 
     public void Chase()
     {
         MoveToPosition(core.CollisionSenses.visibleTargets[0].position);
+    }
+
+    public void RotateTowardsLocker()
+    {
+        Vector3 lTargetDir = core.CollisionSenses.lockerTargets[core.CollisionSenses.randomLocker].position - RB.transform.position;
+        lTargetDir.y = 0.0f;
+        RB.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lTargetDir), Time.time * core.CollisionSenses.lookAtSpeed);
+    }
+
+    public void MoveToLocker()
+    {
+        MoveToPosition(core.CollisionSenses.lockerTargets[core.CollisionSenses.randomLocker].position);
     }
 
     public void PatrolBehavior()
@@ -57,7 +70,7 @@ public class Movement: CoreComponent
             }
 
             core.WaypointsBase.curWaypoint = core.WaypointsBase.waypoints[core.WaypointsBase.waypointIndex];
-            core.WaypointsBase.waypointDistance = Vector3.Distance(core.Movement.transform.position, core.WaypointsBase.curWaypoint.targetDestination.position);
+            core.WaypointsBase.waypointDistance = GetSqrDistXZ(RB.transform.position, core.WaypointsBase.curWaypoint.targetDestination.position);
         }
         core.Movement.MoveToPosition(core.WaypointsBase.curWaypoint.targetDestination.position);
     }
@@ -77,6 +90,27 @@ public class Movement: CoreComponent
         }
         core.WaypointsBase.curWaypoint = core.WaypointsBase.waypoints[core.WaypointsBase.waypointIndex];
         core.WaypointsBase.maxWaitTime = core.WaypointsBase.curWaypoint.waitTime;
+    }
+    public void SearchBehavior()
+    {
+        float distanceCheck = GetSqrDistXZ(RB.transform.position, core.WaypointsBase.candidatePosition);
+        if (distanceCheck < core.WaypointsBase.WaypointInRange)
+        {
+            core.WaypointsBase.waitTimeWP += Time.deltaTime;
+            core.WaypointsBase.maxWaitTime = Random.Range(2, 6);
+            if (core.WaypointsBase.waitTimeWP > core.WaypointsBase.maxWaitTime)
+            {
+                core.WaypointsBase.waitTimeWP = 0;
+                core.WaypointsBase.candidatePosition = RandomVector3AroundPosition(core.WaypointsBase.lastKnownPosition);
+                MoveToPosition(core.WaypointsBase.candidatePosition);
+            }
+        }
+    }
+
+    public float GetSqrDistXZ(Vector3 a, Vector3 b)
+    {
+        Vector3 vector = new Vector3(a.x - b.x, 0, a.z - b.z);
+        return vector.sqrMagnitude;
     }
 
     public Vector3 RandomVector3AroundPosition(Vector3 targetPosition)

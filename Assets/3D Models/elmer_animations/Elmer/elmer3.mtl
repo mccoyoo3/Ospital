@@ -1,0 +1,26 @@
+# Blender MTL File: 'elmer3.blend'
+# Material Count: 2
+
+newmtl old_asian_male
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 0.027450 0.027450 0.027450
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd C:\Users\KenXXhhin V.2.0\Desktop\textures\old_lightskinned_male_diffuse2.png
+map_d C:\\Users\\KenXXhhin V.2.0\\Desktop\\textures\\old_lightskinned_male_diffuse2.png
+
+newmtl old_asian_male_teeth.png
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.500000 0.500000 0.500000
+Ks 0.027450 0.027450 0.027450
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd C:\Users\KenXXhhin V.2.0\Desktop\textures\teeth.png
+map_d C:\\Users\\KenXXhhin V.2.0\\Desktop\\textures\\old_lightskinned_male_diffuse2.png

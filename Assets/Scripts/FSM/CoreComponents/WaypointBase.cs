@@ -9,6 +9,7 @@ public class WaypointBase : CoreComponent
     [HideInInspector] public EnemyWaypoints curWaypoint;
 
     public float WaypointInRange = 0.1f;
+    public float LockerInRange = 1f;
     public int waypointIndex { get; set; }
     public float waypointDistance { get; set; }
     public float waitTimeWP { get; set; }
