@@ -6,6 +6,8 @@ public class E1_AttackState : AttackState
 {
     private Enemy1 enemy;
 
+    private protected float distanceCheck;
+
     public E1_AttackState(Entity etity, FiniteStateMachine stateMachine, string animBoolName, D_AttackState stateData, Enemy1 enemy) : base(etity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
@@ -24,12 +26,15 @@ public class E1_AttackState : AttackState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        float _distanceCheck = core.Movement.GetSqrDistXZ(enemy.transform.position, core.CollisionSenses.visibleTargets[0].position);
+        distanceCheck = _distanceCheck;
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        float distanceCheck = core.Movement.GetSqrDistXZ(enemy.transform.position, core.WaypointsBase.lastKnownPosition);
+
+        Debug.Log(distanceCheck);
         if (!isPlayerDetected)
         {
             stateMachine.ChangeState(enemy.searchState);

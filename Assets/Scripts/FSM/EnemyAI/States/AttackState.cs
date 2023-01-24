@@ -17,6 +17,7 @@ public class AttackState : State
     {
         base.DoChecks();
         isPlayerDetected = core.CollisionSenses.PlayerTargetRaycast;
+        core.Movement.RotateTowardsTarget();
     }
 
     public override void Enter()
