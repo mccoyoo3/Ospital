@@ -32,7 +32,7 @@ public class E1_AttackState : AttackState
         float distanceCheck = core.Movement.GetSqrDistXZ(enemy.transform.position, core.WaypointsBase.lastKnownPosition);
         if (!isPlayerDetected)
         {
-            stateMachine.ChangeState(enemy.idleState);
+            stateMachine.ChangeState(enemy.searchState);
         }
         else if (distanceCheck > stateData.attackRange && isPlayerDetected)
         {

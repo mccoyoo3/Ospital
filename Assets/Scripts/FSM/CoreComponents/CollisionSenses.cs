@@ -51,15 +51,15 @@ public class CollisionSenses : CoreComponent
                 float disToTarget = Vector3.Distance(transform.parent.position, target.position);
                 if (!Physics.Raycast(transform.parent.position, dirToTarget, disToTarget, WhatIsGround))
                 {
-                    visibleTargets.Add(target);
+                    if (!visibleTargets.Contains(target)) visibleTargets.Add(target);
+ 
                     distanceFromTarget = core.Movement.GetSqrDistXZ(transform.parent.position, target.position);
                     core.WaypointsBase.candidatePosition = target.position;
                     targetPosition = target.position;
-                    return 1;
                 }
             }
         }
-        return 0;
+        return visibleTargets.Count;
     }
 
     public int FindLockers()
@@ -79,7 +79,7 @@ public class CollisionSenses : CoreComponent
                 targetPosition = target.position;
             }
         }
-        return 0;
+        return findTargets;
     }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)

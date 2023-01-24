@@ -98,6 +98,7 @@ public class Movement: CoreComponent
         {
             core.WaypointsBase.waitTimeWP += Time.deltaTime;
             core.WaypointsBase.maxWaitTime = Random.Range(2, 6);
+            SetVelocityZero();
             if (core.WaypointsBase.waitTimeWP > core.WaypointsBase.maxWaitTime)
             {
                 core.WaypointsBase.waitTimeWP = 0;

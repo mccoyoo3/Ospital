@@ -26,7 +26,7 @@ public class E1_ChaseState : ChaseState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if(!isChasing && !core.CollisionSenses.visibleTargets.Any())
+        if(!core.CollisionSenses.visibleTargets.Any())
         {
             stateMachine.ChangeState(enemy.searchState);
         }
